@@ -8,9 +8,6 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption('Standing Lemons')
 
-SCREEN_HEIGHT = 400
-SCREEN_WIDTH = 400
-
 WINDOW_SIZE = (500, 400)
 
 WHITE = ((255, 255, 255))
