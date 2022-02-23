@@ -34,8 +34,25 @@ def load_image(name, colorkey=None, scale=1):
     return image, image.get_rect()
 
 
+def load_sound(name):
+    class NoneSound:
+        def play(self):
+            pass
+
+    if not pygame.mixer or not pygame.mixer.get_init():
+        return NoneSound()
+
+    fullname = os.path.join(img_folder, name)
+    sound = pygame.mixer.Sound(fullname)
+
+    return sound
+
+
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
+
+click_sound = load_sound("Click_sound1.wav")
+button_sound = load_sound("Button_sound1.wav")
 
 class Lemon():
     def __init__(self):
@@ -100,9 +117,12 @@ class Lemon():
         if pygame.mouse.get_pressed()[0] and self.lemon_rect.collidepoint(pygame.mouse.get_pos()) and not self.clicked:
             self.clicked = True
             self.lemons += self.lpc
+
+            click_sound.play()
     
         elif pygame.mouse.get_pressed()[0] and self.juicer_button_rect.collidepoint(pygame.mouse.get_pos()) and self.lemons >= 100 and not self.clicked:
             self.clicked = True
+            button_sound.play()
 
             self.lpc += 1
             self.lemons -= 100
@@ -110,6 +130,7 @@ class Lemon():
 
         elif pygame.mouse.get_pressed()[0] and self.kids_button_rect.collidepoint(pygame.mouse.get_pos()) and self.lemons >= 100 and not self.clicked:
             self.clicked = True
+            button_sound.play()
 
             self.lps += 0.0333
             self.lemons -= 100
@@ -117,6 +138,7 @@ class Lemon():
 
         elif pygame.mouse.get_pressed()[0] and self.ape_button_rect.collidepoint(pygame.mouse.get_pos()) and self.lemons >= 250 and not self.clicked:
             self.clicked = True
+            button_sound.play()
 
             self.lps += 0.1333
             self.lemons -= 250
